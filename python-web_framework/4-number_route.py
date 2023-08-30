@@ -73,6 +73,18 @@ def python_is_cool(text='is cool'):
     return f"Python {escape(text.replace('_',' '))}"
 
 
+@app.route('/number/<int:n>')
+def hello_id(n):
+  ''' 
+  Function that returns the int parameter passed
+  Parameter:
+        type:
+  return:
+        type: string + values pass
+  '''
+  return f"{n} is a number"
+
+
 if __name__ == '__main__':
     # for every route
     app.url_map.strict_slashes = False

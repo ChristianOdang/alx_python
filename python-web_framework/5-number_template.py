@@ -5,7 +5,7 @@ on 0.0.0.0
 """
 # import flask module
 from glob import escape
-from flask import Flask
+from flask import Flask, render_template
 
 # define a flask instance
 app = Flask(__name__)
@@ -71,6 +71,30 @@ def python_is_cool(text='is cool'):
            type: string
       '''
     return f"Python {escape(text.replace('_',' '))}"
+
+
+@app.route('/number/<int:n>')
+def hello_id(n):
+    ''' 
+    Function that returns the int parameter passed
+    Parameter:
+          type:
+    return:
+          type: string + values pass
+    '''
+    return f"{n} is a number"
+
+
+@app.route('/number_template/<int:n>')
+def hello_number_template(n):
+    ''' 
+    Function that pass a parameter to a defines templates
+    Parameter:
+          type: int
+    return:
+          HTML with the value passed
+    '''
+    return render_template('5-number.html', n=n)
 
 
 if __name__ == '__main__':
