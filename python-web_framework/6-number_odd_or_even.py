@@ -100,10 +100,10 @@ def hello_number_template(n):
 @app.route('/number_odd_or_even/<int:n>')
 def even_or_odd(n):
     if n % 2 == 0:
-        msgs = 'even'
+        msg = 'even'
     else:
-        msgs = 'odd'
-    return render_template('6-number_odd_or_even.html', n=n, msgs=msgs)
+        msg = 'odd'
+    return render_template('6-number_odd_or_even.html', n=n, msg=msg)
 
 
 if __name__ == '__main__':
