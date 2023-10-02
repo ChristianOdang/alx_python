@@ -14,8 +14,8 @@ Parameters:
     
 Return:
     return: the text response
-     
 """
+
 d_inpt = []
 
 try:
