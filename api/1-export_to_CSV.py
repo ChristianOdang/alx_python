@@ -2,52 +2,52 @@
 This script uses an API to retrieve employees task information
 and display it in a special format.
 
-It retrieves employees name, task completed with their title.
 """
+
+"""
+This script uses an API to retrieve employee task information
+and display in a special format.
+
+It retrieves employees name, task completed with their titles.
+"""
+import json
 import requests
 import sys
-import csv
 
 # No execution of this file when imported
 if __name__ == "__main__":
-
-    # Pass employees id on command line
+    
+# Pass employee id on command line
     id = sys.argv[1]
 
-    # APIs
-    userTodoURL = "https://jsonplaceholder.typicode.com/users{}/todos".format(
-        id)
+# APIs 
+    userTodoURL = "https://jsonplaceholder.typicode.com/users/{}/todos".format(id)
     userProfile = "https://jsonplaceholder.typicode.com/users/{}".format(id)
 
-    # Make requests on APIs
+# Make requests on APIs
     todoResponse = requests.get(userTodoURL)
     profileResponse = requests.get(userProfile)
 
-    # Parse responses and store in variables
+# Parse responses and store in variables
     todoJson_Data = todoResponse.json()
     profileJson_Data = profileResponse.json()
 
-    # Get employee information
-    employeeName = profileJson_Data['name']
+#Get employee information
+    employeeName = profileJson_Data['username']
 
-    dataList = []
+    dataList = []# Empty list to store the dictionaries
 
     for data in todoJson_Data:
-        dataDict = {
-            "userId": data['userId'], "name": employeeName, "completed": data['completed']}
+        dataDict = {"task":data['title'], "completed":data['completed'], "username":employeeName}
         dataList.append(dataDict)
 
-    # Specify the CSV file path
-    csv_file_path = '{}.csv'.format(id)
+# A dictionary of list of dictionaries to be exported to JSON
+    outputData = {profileJson_Data['id']: dataList}
 
-    # Define the field names (column header)
-    fieldnames = ["userId", "name", "completed", "title"]
+# Specify the JSON file path
+    json_file_path = '{}.json'.format(todoJson_Data[0]['userId'])
 
-    # Open the CSV file in write mode
-    with open(csv_file_path, 'w', newline='') as csv_file:
-        # Create a CSV writer
-        csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
-
-        # Write the data rows
-        for row in dataList:
-            csv_writer.writerow(row)
+# Open the JSON file in write mode
+    with open(json_file_path, 'w') as json_file:
+    # Serialize and write the data to the JSON file
+        json.dump(outputData, json_file)
