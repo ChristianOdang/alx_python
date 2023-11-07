@@ -1,9 +1,3 @@
-""" 
-This script uses an API to retrieve employees task information
-and display it in a special format.
-
-It retrieves employees name, task completed with their "
-
 """
 This script uses an API to retrieve employee task information
 and display in a special format.
