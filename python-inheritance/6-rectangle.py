@@ -1,30 +1,44 @@
-""" 
-Write a class Rectangle that inherits from BaseGeometry(5-base_geometry.py)
+
 """
+Module containing the Rectangle class.
+"""
+class OverrideMetaClass(type):
+    """def __new__(cls, name, bases, attrs):
+        # Customize the class creation process here
+        return super().__new__(cls, name, bases, attrs)"""
+
+    def __dir__(cls):
+        """
+        Returns:
+            list: List of attributes excluding __init_subclass__.
+        """
+        return [attribute for attribute in
+                super().__dir__() if attribute != '__init_subclass__']
+    
 BaseGeometry = __import__('5-base_geometry').BaseGeometry
 
 
-class BaseGeometryMetaClass(type):
-    """ 
-    A metaclass for Base Geomerty
+class Rectangle(BaseGeometry, metaclass=OverrideMetaClass):
+    """
+    Models a rectangle. A derived class of BaseGeometgry
     """
     def __dir__(cls) -> None:
-        """ 
-        A function define to remove the __init_subclass__ from dir
         """
-        return [attribute for attribute in super().__dir__ if attribute != '__init_subclass__']
-
-
-class Rectangle(BaseGeometry, metaclass=BaseGeometryMetaClass):
-    """ 
-    Write a class rectangle that inherits from BaseGeometry (5-base_geometry.py).
-    """
-
+        Removes __init_subclass__ from list of class attributes
+        """
+        attributes = super().__dir__()
+        n_attributes = []
+        for attr in attributes:
+            if attr != '__init_subclass__':
+                n_attributes.append(attr)
+        return n_attributes
+    
     def __init__(self, width, height):
-        """ 
-        Initialaizotio function for base geometry
         """
-        width = BaseGeometry.integer_validator(self, "width", width)
-        height = BaseGeometry.integer_validator(self, "height", height)
+        Call attriutes of parent.
+        validates attributes for positive integer
+        """
         self.__width = width
         self.__height = height
+        self.integer_validator("width", width)
+        self.integer_validator("height", height)
