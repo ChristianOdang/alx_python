@@ -1,41 +1,25 @@
 '''
-A script that lists all State objects from the database 
-hbtn_0e_6_usa 
+a script that lists all State objects
+that contain the letter a from the database
 '''
+if __name__ == "__main__":
+    from model_state import State, Base
+    from sqlalchemy.orm import sessionmaker
+    from sqlalchemy import create_engine
+    import sys
 
-# Import Modules from ORM
-from sqlalchemy import create_engine, select
-import sqlalchemy
-from sqlalchemyy.ext.declerative import declarative_base
+    path = 'mysql+mysqldb://{}:{}@localhost/{}'.format(
+        sys.argv[1], sys.argv[2], sys.argv[3])
+    engine = create_engine(path)
 
-# Import Base and table from model
-from model_state import Base, State
+    Base.metadata.create_all(engine)
 
-# import sys to get values from terminal
-import sys
-
-# import session for database interaction
-from sqlalchemy.orm import sessionmaker
-
-# define Base class for table class inheritance
-try:
-    engine = create_engine(
-        "mysql+mysqldb://{}@localhost/{}"
-        .format(sys.argv[1], sys.argv[2], sys.argv[3]))
-
-    # create a session variable and bint the engine
     Session = sessionmaker(bind=engine)
-
-    # instatiate the session
     session = Session()
 
-    results = session.query(State).filter(State.name.like('%a%'))
+    states = session.query(State).order_by(State.id).all()
+    for state in states:
+        if 'a' in state.name:
+            print("{}: {}".format(state.id, state.name))
 
-    for result in results:
-        print(f"{result.id}: {result.name}")
-
-except AttributeError as e:
-    print(f"error message {e}")
-
-except sqlalchemy.exc.ProgrammingError as e:
-    print(f"An Error occured: {e}")
+    session.close()
