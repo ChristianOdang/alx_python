@@ -1,27 +1,23 @@
-""" 
-The module of a class name BaseGeometry
+"""
+This module is an empty class 
 """
 
 
-class BaseGeometery:
-    """ 
-    This method check if a class is an instance of the define object
-    example 1 is an instance of the class int
+class BaseGeometry():
     """
-
+    This class models an empty class
+    """
     def __dir__(cls) -> None:
-        """ 
-        The function overide the default __dir__ function
         """
-        attrib = super().__dir__()
-        n_attri = []
-        for attr in attrib:
+        control access to some inherited attributes
+        """
+        attributes = super().__dir__()
+        n_attributes = []
+        for attr in attributes:
             if attr != '__init_subclass__':
-                n_attri.append(attr)
-        return n_attri
-
+                n_attributes.append(attr)
+        return n_attributes
+    
     def area(self):
-        """ 
-        This function raise an error if the area method is not define
-        """
+        """a method to raise an exception with a message"""
         raise Exception("area() is not implemented")
